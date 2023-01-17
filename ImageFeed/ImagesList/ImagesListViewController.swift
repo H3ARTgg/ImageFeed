@@ -1,13 +1,6 @@
-//
-//  ViewController.swift
-//  ImageFeed
-//
-//  Created by Максим Фасхетдинов on 09.01.2023.
-//
-
 import UIKit
 
-class ImagesListViewController: UIViewController {
+final class ImagesListViewController: UIViewController {
 
     @IBOutlet private var tableView: UITableView!
     private let photosName: [String] = Array(0..<20).map{ "\($0)" }
