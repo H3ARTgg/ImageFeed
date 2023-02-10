@@ -14,6 +14,9 @@
 		1D49FFD1296C5CDB009017F3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1D49FFD0296C5CDB009017F3 /* Assets.xcassets */; };
 		1D49FFD4296C5CDB009017F3 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1D49FFD2296C5CDB009017F3 /* LaunchScreen.storyboard */; };
 		1D903A3529756F0400D368F7 /* ImagesListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D903A3429756F0400D368F7 /* ImagesListCell.swift */; };
+		1D903A38297ADE6900D368F7 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D903A37297ADE6900D368F7 /* ProfileViewController.swift */; };
+		1D903A3A297D73B100D368F7 /* SingleImageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D903A39297D73B100D368F7 /* SingleImageViewController.swift */; };
+		1D903A3C2996D5C000D368F7 /* UIColor + Extenstion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D903A3B2996D5C000D368F7 /* UIColor + Extenstion.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -26,6 +29,9 @@
 		1D49FFD3296C5CDB009017F3 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		1D49FFD5296C5CDB009017F3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1D903A3429756F0400D368F7 /* ImagesListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagesListCell.swift; sourceTree = "<group>"; };
+		1D903A37297ADE6900D368F7 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
+		1D903A39297D73B100D368F7 /* SingleImageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SingleImageViewController.swift; sourceTree = "<group>"; };
+		1D903A3B2996D5C000D368F7 /* UIColor + Extenstion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor + Extenstion.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -58,6 +64,9 @@
 		1D49FFC6296C5CDA009017F3 /* ImageFeed */ = {
 			isa = PBXGroup;
 			children = (
+				1D903A39297D73B100D368F7 /* SingleImageViewController.swift */,
+				1D903A37297ADE6900D368F7 /* ProfileViewController.swift */,
+				1D903A3B2996D5C000D368F7 /* UIColor + Extenstion.swift */,
 				1D903A3629756F3A00D368F7 /* ImagesList */,
 				1D49FFCD296C5CDA009017F3 /* Main.storyboard */,
 				1D49FFD0296C5CDB009017F3 /* Assets.xcassets */,
@@ -150,8 +159,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				1D49FFCC296C5CDA009017F3 /* ImagesListViewController.swift in Sources */,
+				1D903A3C2996D5C000D368F7 /* UIColor + Extenstion.swift in Sources */,
 				1D903A3529756F0400D368F7 /* ImagesListCell.swift in Sources */,
+				1D903A38297ADE6900D368F7 /* ProfileViewController.swift in Sources */,
 				1D49FFC8296C5CDA009017F3 /* AppDelegate.swift in Sources */,
+				1D903A3A297D73B100D368F7 /* SingleImageViewController.swift in Sources */,
 				1D49FFCA296C5CDA009017F3 /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
