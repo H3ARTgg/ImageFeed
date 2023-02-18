@@ -1,21 +1,59 @@
 import UIKit
 
-class ProfileViewController: UIViewController {
-    
+private enum ImageError: String {
+    case imageError = "Не удалось получить картинку"
+}
+
+final class ProfileViewController: UIViewController {
+    // MARK: - Properties
+    private let imageView = UIImageView()
+    private let nameLabel = UILabel()
+    private let loginLabel = UILabel()
+    private let descriptionLabel = UILabel()
+    private var exitButton = UIButton()
+        
+    // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        configureViews()
+        configureImageView()
+        configureExitButton()
+        configureNameLabel()
+        configureLoginLabel()
+        configureDescriptionLabel()
     }
     
-    @objc func didTapExit() {
+    @objc private func didTapExit() {
         
     }
+}
+
+// MARK: - Views Configuration
+extension ProfileViewController {
+    private func configureExitButton() {
+        if let systemImage = UIImage(systemName: "ipad.and.arrow.forward") {
+            exitButton = UIButton.systemButton(with: systemImage, target: self, action: #selector(didTapExit))
+        } else {
+            print(ImageError.imageError.rawValue)
+        }
+        
+        exitButton.tintColor = UIColor(named: "YP Red")
+        
+        exitButton.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(exitButton)
+        
+        NSLayoutConstraint.activate([
+            exitButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -26),
+            exitButton.centerYAnchor.constraint(equalTo: imageView.centerYAnchor)
+        ])
+    }
     
-    private func configureViews() {
-        // ImageView
-        let imageView = UIImageView()
-        let profileImage = UIImage(systemName: "person.crop.circle.fill")
-        imageView.image = profileImage
+    private func configureImageView() {
+        if let profileImage = UIImage(systemName: "person.crop.circle.fill") {
+            imageView.image = profileImage
+        } else {
+            print(ImageError.imageError.rawValue)
+        }
+        
         imageView.tintColor = .gray
         
         imageView.translatesAutoresizingMaskIntoConstraints = false
@@ -27,24 +65,9 @@ class ProfileViewController: UIViewController {
             imageView.widthAnchor.constraint(equalToConstant: 70),
             imageView.heightAnchor.constraint(equalToConstant: 70)
         ])
-        
-        // Exit Button
-        let exitButton = UIButton.systemButton(
-            with: UIImage(systemName: "ipad.and.arrow.forward")!,
-            target: self,
-            action: #selector(didTapExit))
-        exitButton.tintColor = UIColor(named: "YP Red")
-        
-        exitButton.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(exitButton)
-        
-        NSLayoutConstraint.activate([
-            exitButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -26),
-            exitButton.centerYAnchor.constraint(equalTo: imageView.centerYAnchor)
-        ])
-        
-        // Name Label
-        let nameLabel = UILabel()
+    }
+    
+    private func configureNameLabel() {
         nameLabel.text = "Name"
         nameLabel.font = UIFont.boldSystemFont(ofSize: 23)
         nameLabel.textColor = UIColor.ypWhite
@@ -56,9 +79,9 @@ class ProfileViewController: UIViewController {
             nameLabel.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: 8),
             nameLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16)
         ])
-        
-        // Login Label
-        let loginLabel = UILabel()
+    }
+    
+    private func configureLoginLabel() {
         loginLabel.text = "@login"
         loginLabel.font = UIFont.systemFont(ofSize: 13)
         loginLabel.textColor = UIColor.ypGray
@@ -70,9 +93,9 @@ class ProfileViewController: UIViewController {
             loginLabel.topAnchor.constraint(equalTo: nameLabel.bottomAnchor, constant: 8),
             loginLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16)
         ])
-        
-        // Description Label
-        let descriptionLabel = UILabel()
+    }
+    
+    private func configureDescriptionLabel() {
         descriptionLabel.text = "Some text"
         descriptionLabel.font = UIFont.systemFont(ofSize: 13)
         descriptionLabel.textColor = UIColor.ypWhite

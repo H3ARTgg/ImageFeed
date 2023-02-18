@@ -17,6 +17,17 @@
 		1D903A38297ADE6900D368F7 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D903A37297ADE6900D368F7 /* ProfileViewController.swift */; };
 		1D903A3A297D73B100D368F7 /* SingleImageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D903A39297D73B100D368F7 /* SingleImageViewController.swift */; };
 		1D903A3C2996D5C000D368F7 /* UIColor + Extenstion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D903A3B2996D5C000D368F7 /* UIColor + Extenstion.swift */; };
+		1D903A3E299AF4AF00D368F7 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D903A3D299AF4AF00D368F7 /* Constants.swift */; };
+		1D903A40299BB23E00D368F7 /* AuthViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D903A3F299BB23E00D368F7 /* AuthViewController.swift */; };
+		1D903A43299BBBFF00D368F7 /* WebViewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D903A42299BBBFF00D368F7 /* WebViewViewController.swift */; };
+		1D903A45299BC72200D368F7 /* WebViewViewControllerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D903A44299BC72200D368F7 /* WebViewViewControllerDelegate.swift */; };
+		1D903A47299C031100D368F7 /* OAuthTokenResponseBody.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D903A46299C031100D368F7 /* OAuthTokenResponseBody.swift */; };
+		1D903A49299C065800D368F7 /* OAuth2Service.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D903A48299C065800D368F7 /* OAuth2Service.swift */; };
+		1D903A4B29A0FB9E00D368F7 /* URLRequest + Extenstion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D903A4A29A0FB9E00D368F7 /* URLRequest + Extenstion.swift */; };
+		1D903A4D29A0FDB200D368F7 /* OAuth2ServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D903A4C29A0FDB200D368F7 /* OAuth2ServiceProtocol.swift */; };
+		1D903A4F29A100D100D368F7 /* OAuth2TokenStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D903A4E29A100D100D368F7 /* OAuth2TokenStorage.swift */; };
+		1D903A5129A12A4300D368F7 /* SplashViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D903A5029A12A4300D368F7 /* SplashViewController.swift */; };
+		1D903A5329A12C2800D368F7 /* AuthViewControllerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D903A5229A12C2800D368F7 /* AuthViewControllerDelegate.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -32,6 +43,17 @@
 		1D903A37297ADE6900D368F7 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		1D903A39297D73B100D368F7 /* SingleImageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SingleImageViewController.swift; sourceTree = "<group>"; };
 		1D903A3B2996D5C000D368F7 /* UIColor + Extenstion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor + Extenstion.swift"; sourceTree = "<group>"; };
+		1D903A3D299AF4AF00D368F7 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		1D903A3F299BB23E00D368F7 /* AuthViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthViewController.swift; sourceTree = "<group>"; };
+		1D903A42299BBBFF00D368F7 /* WebViewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewViewController.swift; sourceTree = "<group>"; };
+		1D903A44299BC72200D368F7 /* WebViewViewControllerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewViewControllerDelegate.swift; sourceTree = "<group>"; };
+		1D903A46299C031100D368F7 /* OAuthTokenResponseBody.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OAuthTokenResponseBody.swift; sourceTree = "<group>"; };
+		1D903A48299C065800D368F7 /* OAuth2Service.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OAuth2Service.swift; sourceTree = "<group>"; };
+		1D903A4A29A0FB9E00D368F7 /* URLRequest + Extenstion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URLRequest + Extenstion.swift"; sourceTree = "<group>"; };
+		1D903A4C29A0FDB200D368F7 /* OAuth2ServiceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OAuth2ServiceProtocol.swift; sourceTree = "<group>"; };
+		1D903A4E29A100D100D368F7 /* OAuth2TokenStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OAuth2TokenStorage.swift; sourceTree = "<group>"; };
+		1D903A5029A12A4300D368F7 /* SplashViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashViewController.swift; sourceTree = "<group>"; };
+		1D903A5229A12C2800D368F7 /* AuthViewControllerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthViewControllerDelegate.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -64,10 +86,18 @@
 		1D49FFC6296C5CDA009017F3 /* ImageFeed */ = {
 			isa = PBXGroup;
 			children = (
+				1D903A5029A12A4300D368F7 /* SplashViewController.swift */,
+				1D903A46299C031100D368F7 /* OAuthTokenResponseBody.swift */,
+				1D903A4C29A0FDB200D368F7 /* OAuth2ServiceProtocol.swift */,
+				1D903A48299C065800D368F7 /* OAuth2Service.swift */,
+				1D903A4E29A100D100D368F7 /* OAuth2TokenStorage.swift */,
+				1D903A41299BBB5700D368F7 /* Auth */,
 				1D903A39297D73B100D368F7 /* SingleImageViewController.swift */,
 				1D903A37297ADE6900D368F7 /* ProfileViewController.swift */,
-				1D903A3B2996D5C000D368F7 /* UIColor + Extenstion.swift */,
 				1D903A3629756F3A00D368F7 /* ImagesList */,
+				1D903A3D299AF4AF00D368F7 /* Constants.swift */,
+				1D903A3B2996D5C000D368F7 /* UIColor + Extenstion.swift */,
+				1D903A4A29A0FB9E00D368F7 /* URLRequest + Extenstion.swift */,
 				1D49FFCD296C5CDA009017F3 /* Main.storyboard */,
 				1D49FFD0296C5CDB009017F3 /* Assets.xcassets */,
 				1D49FFD2296C5CDB009017F3 /* LaunchScreen.storyboard */,
@@ -85,6 +115,17 @@
 				1D903A3429756F0400D368F7 /* ImagesListCell.swift */,
 			);
 			path = ImagesList;
+			sourceTree = "<group>";
+		};
+		1D903A41299BBB5700D368F7 /* Auth */ = {
+			isa = PBXGroup;
+			children = (
+				1D903A3F299BB23E00D368F7 /* AuthViewController.swift */,
+				1D903A5229A12C2800D368F7 /* AuthViewControllerDelegate.swift */,
+				1D903A42299BBBFF00D368F7 /* WebViewViewController.swift */,
+				1D903A44299BC72200D368F7 /* WebViewViewControllerDelegate.swift */,
+			);
+			path = Auth;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -158,13 +199,24 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1D903A43299BBBFF00D368F7 /* WebViewViewController.swift in Sources */,
 				1D49FFCC296C5CDA009017F3 /* ImagesListViewController.swift in Sources */,
+				1D903A4D29A0FDB200D368F7 /* OAuth2ServiceProtocol.swift in Sources */,
+				1D903A5129A12A4300D368F7 /* SplashViewController.swift in Sources */,
+				1D903A49299C065800D368F7 /* OAuth2Service.swift in Sources */,
+				1D903A47299C031100D368F7 /* OAuthTokenResponseBody.swift in Sources */,
+				1D903A5329A12C2800D368F7 /* AuthViewControllerDelegate.swift in Sources */,
 				1D903A3C2996D5C000D368F7 /* UIColor + Extenstion.swift in Sources */,
 				1D903A3529756F0400D368F7 /* ImagesListCell.swift in Sources */,
 				1D903A38297ADE6900D368F7 /* ProfileViewController.swift in Sources */,
 				1D49FFC8296C5CDA009017F3 /* AppDelegate.swift in Sources */,
+				1D903A4B29A0FB9E00D368F7 /* URLRequest + Extenstion.swift in Sources */,
 				1D903A3A297D73B100D368F7 /* SingleImageViewController.swift in Sources */,
+				1D903A45299BC72200D368F7 /* WebViewViewControllerDelegate.swift in Sources */,
+				1D903A4F29A100D100D368F7 /* OAuth2TokenStorage.swift in Sources */,
 				1D49FFCA296C5CDA009017F3 /* SceneDelegate.swift in Sources */,
+				1D903A40299BB23E00D368F7 /* AuthViewController.swift in Sources */,
+				1D903A3E299AF4AF00D368F7 /* Constants.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
