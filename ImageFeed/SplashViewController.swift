@@ -1,30 +1,32 @@
 import UIKit
 
-class SplashViewController: UIViewController {
+final class SplashViewController: UIViewController {
+    // MARK: - Properties
     private let oauth2Service = OAuth2Service()
     private let oauth2TokenStorage = OAuth2TokenStorage()
+    private var firstTime: Bool = true
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-    }
-    
+    // MARK: - Lifecycle
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        if let _ = oauth2TokenStorage.token {
+        guard firstTime == true else { return }
+        if oauth2TokenStorage.token != nil {
             switchToTabBarController()
         } else {
-            performSegue(withIdentifier: ShowAuthenticationScreenSegueIdentifier, sender: nil)
+            performSegue(withIdentifier: showAuthenticationScreenSegueIdentifier, sender: nil)
         }
+        firstTime = false
     }
 }
 
+// MARK: - Extenstion(prepare, switchToTabBarController)
 extension SplashViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == ShowAuthenticationScreenSegueIdentifier {
+        if segue.identifier == showAuthenticationScreenSegueIdentifier {
             guard
                 let navigationController = segue.destination as? UINavigationController,
                 let viewController = navigationController.viewControllers[0] as? AuthViewController
-            else { fatalError("Failed to prepare for \(ShowAuthenticationScreenSegueIdentifier)") }
+            else { fatalError("Failed to prepare for \(showAuthenticationScreenSegueIdentifier)") }
             
             viewController.delegate = self
         } else {
@@ -42,6 +44,7 @@ extension SplashViewController {
     }
 }
 
+// MARK: - AuthViewControllerDelegate
 extension SplashViewController: AuthViewControllerDelegate {
     func authViewController(_ vc: AuthViewController, didAuthenticateWithCode code: String) {
         dismiss(animated: true) { [weak self] in

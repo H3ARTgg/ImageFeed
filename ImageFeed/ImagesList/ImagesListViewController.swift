@@ -1,7 +1,7 @@
 import UIKit
 
 final class ImagesListViewController: UIViewController {
-
+    // MARK: - Outlets and Properties
     @IBOutlet private var tableView: UITableView!
     private let ShowSingleImageSegueIdentifier = "ShowSingleImage"
     private let photosName: [String] = Array(0..<20).map{ "\($0)" }
@@ -12,6 +12,7 @@ final class ImagesListViewController: UIViewController {
         return formatter
     }()
     
+    // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -31,6 +32,7 @@ final class ImagesListViewController: UIViewController {
     }
 }
 
+// MARK: - Extenstion
 extension ImagesListViewController {
     func configCell(for cell: ImagesListCell, with indexPath: IndexPath) {
         guard let image = UIImage(named: photosName[indexPath.row]) else {
@@ -58,6 +60,7 @@ extension ImagesListViewController {
     }
 }
 
+// MARK: - UITableViewDelegate
 extension ImagesListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         performSegue(withIdentifier: ShowSingleImageSegueIdentifier, sender: indexPath)
@@ -78,6 +81,7 @@ extension ImagesListViewController: UITableViewDelegate {
     }
 }
 
+// MARK: - UITableViewDataSource
 extension ImagesListViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return photosName.count

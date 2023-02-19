@@ -2,9 +2,9 @@ import UIKit
 import WebKit
 
 final class WebViewViewController: UIViewController {
-    // MARK: - Outlets
-    @IBOutlet weak var webView: WKWebView!
-    @IBOutlet weak var progressView: UIProgressView!
+    // MARK: - Outlets and Properties
+    @IBOutlet private weak var webView: WKWebView!
+    @IBOutlet private weak var progressView: UIProgressView!
     weak var delegate: WebViewViewControllerDelegate?
     
     // MARK: - Lifecycle
@@ -22,12 +22,12 @@ final class WebViewViewController: UIViewController {
         
         webView.navigationDelegate = self
         
-        var urlComponents = URLComponents(string: UnsplashAuthorizeURLString)!
+        var urlComponents = URLComponents(string: unsplashAuthorizeURLString)!
         urlComponents.queryItems = [
-            URLQueryItem(name: "client_id", value: AccessKey),
-            URLQueryItem(name: "redirect_uri", value: RedirectURI),
+            URLQueryItem(name: "client_id", value: accessKey),
+            URLQueryItem(name: "redirect_uri", value: redirectURI),
             URLQueryItem(name: "response_type", value: "code"),
-            URLQueryItem(name: "scope", value: AccessScope)
+            URLQueryItem(name: "scope", value: accessScope)
         ]
         
         let url = urlComponents.url!
@@ -50,7 +50,7 @@ extension WebViewViewController: WKNavigationDelegate {
     private func code(from navigationAction: WKNavigationAction) -> String? {
         if
             let url = navigationAction.request.url,
-            let urlComponents = URLComponents(string: url.absoluteString),  
+            let urlComponents = URLComponents(string: url.absoluteString),
             urlComponents.path == "/oauth/authorize/native",
             let items = urlComponents.queryItems,
             let codeItem = items.first(where: { $0.name == "code" })
@@ -65,14 +65,14 @@ extension WebViewViewController: WKNavigationDelegate {
         
         if let code = code(from: navigationAction) {
             delegate?.webViewViewController(self, didAuthenticateWithCode: code)
-                    decisionHandler(.cancel)
-              } else {
-                    decisionHandler(.allow)
-                }
+            decisionHandler(.cancel)
+        } else {
+            decisionHandler(.allow)
+        }
     }
 }
 
-// MARK: - KVO
+// MARK: - KVO Extenstion
 extension WebViewViewController {
     override func observeValue(
         forKeyPath keyPath: String?,
@@ -86,7 +86,7 @@ extension WebViewViewController {
             super.observeValue(forKeyPath: keyPath, of: object, change: change, context: context)
         }
     }
-
+    
     private func updateProgress() {
         progressView.progress = Float(webView.estimatedProgress)
         progressView.isHidden = fabs(webView.estimatedProgress - 1.0) <= 0.0001
