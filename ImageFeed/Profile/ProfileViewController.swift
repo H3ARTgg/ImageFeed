@@ -1,29 +1,75 @@
 import UIKit
+import Kingfisher
 
-private enum ImageError: String {
+private enum Errors: String {
     case imageError = "Не удалось получить картинку"
+    case profileServiceError = "Не удалось получить профиль"
 }
 
 final class ProfileViewController: UIViewController {
     // MARK: - Properties
+    private let profileService = ProfileService.shared
+    private var profileImageServiceObserver: NSObjectProtocol?
+    
     private let imageView = UIImageView()
     private let nameLabel = UILabel()
     private let loginLabel = UILabel()
     private let descriptionLabel = UILabel()
     private var exitButton = UIButton()
-        
+    
     // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
+        view.backgroundColor = .ypBlack
         configureImageView()
         configureExitButton()
         configureNameLabel()
         configureLoginLabel()
         configureDescriptionLabel()
+        
+        if let profile = profileService.profile {
+            updateProfileDetails(profile: profile)
+        } else {
+            print("failed to update profile")
+        }
+        
+        profileImageServiceObserver = NotificationCenter.default.addObserver(
+            forName: ProfileImageService.DidChangeNotification,
+            object: nil,
+            queue: .main) { [weak self] _ in
+                guard let self = self else { return }
+                self.updateAvatar()
+            }
+        updateAvatar()
     }
     
     @objc private func didTapExit() {
         
+    }
+}
+
+// MARK: - updateAvatar
+extension ProfileViewController {
+    private func updateAvatar() {
+            guard
+                let profileImageURL = ProfileImageService.shared.avatarURL,
+                let url = URL(string: profileImageURL)
+            else { return }
+        let processor = RoundCornerImageProcessor(cornerRadius: 20)
+        imageView.kf.indicatorType = .activity
+        imageView.kf.setImage(
+            with: url,
+            placeholder: UIImage(named: "placeholder_profile"),
+            options: [.processor(processor)])
+    }
+}
+
+// MARK: - updateProfilesDetails
+extension ProfileViewController {
+    private func updateProfileDetails(profile: Profile) {
+        loginLabel.text = profile.loginName
+        nameLabel.text = profile.name
+        descriptionLabel.text = profile.bio
     }
 }
 
@@ -33,7 +79,7 @@ extension ProfileViewController {
         if let systemImage = UIImage(systemName: "ipad.and.arrow.forward") {
             exitButton = UIButton.systemButton(with: systemImage, target: self, action: #selector(didTapExit))
         } else {
-            print(ImageError.imageError.rawValue)
+            print(Errors.imageError.rawValue)
         }
         
         exitButton.tintColor = UIColor(named: "YP Red")
@@ -51,7 +97,7 @@ extension ProfileViewController {
         if let profileImage = UIImage(systemName: "person.crop.circle.fill") {
             imageView.image = profileImage
         } else {
-            print(ImageError.imageError.rawValue)
+            print(Errors.imageError.rawValue)
         }
         
         imageView.tintColor = .gray

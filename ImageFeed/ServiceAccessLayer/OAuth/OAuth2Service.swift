@@ -1,43 +1,41 @@
 import Foundation
+import SwiftKeychainWrapper
 
 private enum Errors: String, Error {
     case failedToParseData = "Failed to parse data"
+    case failedToSaveToken = "Failed to save token"
 }
 
 final class OAuth2Service: OAuth2ServiceProtocol {
     // MARK: - Properties
-    private let tokenStorage = OAuth2TokenStorage()
-    private (set) var authToken: String? {
-          get {
-              return tokenStorage.token
-          }
-          set {
-              tokenStorage.token = newValue
-    } }
+    private var task: URLSessionTask?
+    private var lastCode: String?
     
     // MARK: - fetchOAuthToken
     func fetchOAuthToken(_ code: String, completion: @escaping (Result<String, Error>) -> Void) {
+        assert(Thread.isMainThread)
+        if lastCode == code { return }
+        task?.cancel()
+        lastCode = code
         let request =  authTokenRequest(code: code)
-        let task = URLSession.shared.data(for: request) { result in
+        let task = URLSession.shared.objectTask(for: request) { [weak self] (result: Result<OAuthTokenResponseBody, Error>) in
+            guard let self = self else { return }
             switch result {
             case .failure(let error):
-                DispatchQueue.main.async {
-                    completion(.failure(error))
+                completion(.failure(error))
+                self.lastCode = nil
+            case .success(let responseBody):
+                let authToken = responseBody.accessToken
+                let isSuccess = KeychainWrapper.standard.set(authToken, forKey: "Auth token")
+                guard isSuccess else {
+                    completion(.failure(Errors.failedToSaveToken))
+                    return
                 }
-            case .success(let data):
-                do {
-                    let responseBody = try JSONDecoder().decode(OAuthTokenResponseBody.self, from: data)
-                    let authToken = responseBody.accessToken
-                    self.authToken = authToken
-                    DispatchQueue.main.async {
-                        completion(.success(authToken))
-                    }
-
-                } catch {
-                    print(Errors.failedToParseData.rawValue)
-                }
+                completion(.success(authToken))
+                self.task = nil
             }
         }
+        self.task = task
         task.resume()
     }
 }
