@@ -6,10 +6,10 @@ final class ImagesListService {
     private (set) var photos: [Photo] = []
     private var lastLoadedPage: Int?
     private var task: URLSessionTask?
+    private let photosPerPage: Int = 10
     
     func fetchPhotosNextPage() {
-        guard self.task != nil else {
-            task?.resume()
+        if task != nil {
             return
         }
         
@@ -17,26 +17,36 @@ final class ImagesListService {
             ? 1
             : lastLoadedPage! + 1
         
-        let request = URLRequest.makeHTTPRequest(path: "/photos" + "?page=\(nextPage)", httpMethod: "GET")
+        var request = URLRequest.makeHTTPRequest(
+            path: "/photos"
+            + "?page=\(nextPage)"
+            + "&&per_page=\(photosPerPage)",
+            httpMethod: "GET"
+        )
+        guard let token = TokenStorage.token else { return }
+        request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+        
         let task = URLSession.shared.objectTask(for: request) {
-            [weak self] (result: Result<PhotoResult, Error>) in
+            [weak self] (result: Result<[PhotoResult], Error>) in
             guard let self = self else { return }
-            
             switch result {
-            case .success(let photoResult):
+            case .success(let photos):
                 let dateFormatter = DateFormatter()
-                dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZZZZZ"
-                let date = dateFormatter.date(from: photoResult.createdAt)
+                dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZ"
                 
-                let photo = Photo(id: photoResult.id,
-                                  size: CGSize(width: photoResult.width, height: photoResult.height),
-                                  createdAt: date,
-                                  welcomeDescription: photoResult.description,
-                                  thumbImageURL: photoResult.urls["thumb"] ?? "",
-                                  largeImageURL: photoResult.urls["full"] ?? "",
-                                  isLiked: photoResult.isLiked)
+                for photo in photos {
+                    let date = dateFormatter.date(from: photo.createdAt)
+                    let newPhoto = Photo(
+                        id: photo.id,
+                        size: CGSize(width: photo.width, height: photo.height),
+                        createdAt: date,
+                        welcomeDescription: photo.description,
+                        thumbImageURL: photo.urls.thumb,
+                        largeImageURL: photo.urls.full,
+                        isLiked: photo.isLiked)
+                    self.photos.append(newPhoto)
+                }
                 
-                self.photos.append(photo)
                 self.task = nil
                 NotificationCenter.default.post(
                     name: ImagesListService.didChangeNotification,
