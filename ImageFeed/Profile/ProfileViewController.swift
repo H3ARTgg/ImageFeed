@@ -34,7 +34,7 @@ final class ProfileViewController: UIViewController {
         }
         
         profileImageServiceObserver = NotificationCenter.default.addObserver(
-            forName: ProfileImageService.DidChangeNotification,
+            forName: ProfileImageService.didChangeNotification,
             object: nil,
             queue: .main) { [weak self] _ in
                 guard let self = self else { return }
@@ -96,8 +96,6 @@ extension ProfileViewController {
     private func configureImageView() {
         if let profileImage = UIImage(systemName: "person.crop.circle.fill") {
             imageView.image = profileImage
-        } else {
-            print(Errors.imageError.rawValue)
         }
         
         imageView.tintColor = .gray

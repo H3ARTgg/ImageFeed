@@ -26,7 +26,7 @@ final class OAuth2Service: OAuth2ServiceProtocol {
                 self.lastCode = nil
             case .success(let responseBody):
                 let authToken = responseBody.accessToken
-                let isSuccess = KeychainWrapper.standard.set(authToken, forKey: "Auth token")
+                let isSuccess = KeychainWrapper.standard.set(authToken, forKey: TokenStorage.tokenKey)
                 guard isSuccess else {
                     completion(.failure(Errors.failedToSaveToken))
                     return
@@ -45,9 +45,9 @@ extension OAuth2Service {
     private func authTokenRequest(code: String) -> URLRequest {
         URLRequest.makeHTTPRequest(
             path: "/oauth/token"
-            + "?client_id=\(accessKey)"
-            + "&&client_secret=\(secretKey)"
-            + "&&redirect_uri=\(redirectURI)"
+            + "?client_id=\(Constants.accessKey)"
+            + "&&client_secret=\(Constants.secretKey)"
+            + "&&redirect_uri=\(Constants.redirectURI)"
             + "&&code=\(code)"
             + "&&grant_type=authorization_code",
             httpMethod: "POST",

@@ -22,7 +22,7 @@ final class SplashViewController: UIViewController {
         ProgressHUD.colorHUD = .ypBlack!
         
         guard firstTime == true else { return }
-        if let token: String = KeychainWrapper.standard.string(forKey: "Auth token") {
+        if let token = TokenStorage.token {
             UIBlockingProgressHUD.show()
             fetchProfile(token: token)
         } else {
@@ -42,7 +42,7 @@ extension SplashViewController {
     }
     
     private func switchToTabBarController() {
-        guard let window = UIApplication.shared.windows.first else { fatalError("Invalid Configuration") }
+        guard let window = UIApplication.shared.windows.first else { return assertionFailure("Invalid Configuration") }
         
         let tabBarController = UIStoryboard(name: "Main", bundle: .main)
             .instantiateViewController(withIdentifier: "TabBarViewController")
@@ -78,7 +78,7 @@ extension SplashViewController: AuthViewControllerDelegate {
     
     // ProfileService
     private func fetchProfile(token: String) {
-        guard let token: String = KeychainWrapper.standard.string(forKey: "Auth token") else { return }
+        guard let token = TokenStorage.token else { return }
         profileService.fetchProfile(token, completion: { [weak self] result in
             guard let self = self else { return }
             switch result {
