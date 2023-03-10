@@ -35,8 +35,7 @@ final class ProfileImageService {
                     self.task = nil
                     NotificationCenter.default.post(
                             name: ProfileImageService.didChangeNotification,
-                            object: self,
-                            userInfo: ["URL": imageURL])
+                            object: self)
                 } else {
                     completion(.failure(URLError.noImages))
                     self.task = nil
