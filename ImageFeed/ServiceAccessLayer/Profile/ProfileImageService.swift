@@ -18,7 +18,8 @@ final class ProfileImageService {
         }
 
         var request = URLRequest.makeHTTPRequest(path: "/users/\(username)", httpMethod: "GET")
-        guard let token = TokenStorage.token else { return }
+        guard let token = KeychainWrapper.standard.string(forKey: TokenStorage.tokenKey) else {
+            return }
         request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
         
         let task = URLSession.shared.objectTask(for: request) { [weak self] (result: Result<UserResult, Error>) in
