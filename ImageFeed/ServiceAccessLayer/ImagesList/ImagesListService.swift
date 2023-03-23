@@ -21,10 +21,13 @@ final class ImagesListService {
             return
         }
         
-        let nextPage = lastLoadedPage == nil
-            ? 1
-            : lastLoadedPage! + 1
-        lastLoadedPage = nextPage
+        var nextPage: Int = 1
+        if let lastLoadedPage = lastLoadedPage {
+            nextPage = lastLoadedPage + 1
+            self.lastLoadedPage = nextPage
+        } else {
+            lastLoadedPage = 1
+        }
 
         var request = URLRequest.makeHTTPRequest(
             path: "/photos"
@@ -32,7 +35,7 @@ final class ImagesListService {
             + "&&per_page=\(photosPerPage)",
             httpMethod: "GET"
         )
-        guard let token = KeychainWrapper.standard.string(forKey: TokenStorage.tokenKey) else {
+        guard let token = TokenStorage.shared.token else {
             assertionFailure("No token")
             return
             
@@ -92,13 +95,13 @@ final class ImagesListService {
             return
         }
         
-        var request = URLRequest(url: URL(string: "sample")!)
+        var request: URLRequest
         if isLike {
             request = URLRequest.makeHTTPRequest(path: "/photos/\(photoId)/like", httpMethod: "DELETE")
         } else {
             request = URLRequest.makeHTTPRequest(path: "/photos/\(photoId)/like", httpMethod: "POST")
         }
-        guard let token = KeychainWrapper.standard.string(forKey: TokenStorage.tokenKey) else {
+        guard let token = TokenStorage.shared.token else {
             assertionFailure("no token")
             return
         }
@@ -122,15 +125,13 @@ final class ImagesListService {
                         largeImageURL: photo.largeImageURL,
                         isLiked: !photo.isLiked
                     )
-                    self.photos.remove(at: index)
-                    self.photos.insert(newPhoto, at: index)
+                    self.photos[index] = newPhoto
                 }
                 completion(.success(Void()))
-                self.likeTask = nil
             case .failure(let error):
                 completion(.failure(error))
-                self.likeTask = nil
             }
+            self.likeTask = nil
         }
         task.resume()
         self.likeTask = task

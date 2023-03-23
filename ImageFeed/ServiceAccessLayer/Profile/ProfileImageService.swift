@@ -18,7 +18,7 @@ final class ProfileImageService {
         }
 
         var request = URLRequest.makeHTTPRequest(path: "/users/\(username)", httpMethod: "GET")
-        guard let token = KeychainWrapper.standard.string(forKey: TokenStorage.tokenKey) else {
+        guard let token = TokenStorage.shared.token else {
             return }
         request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
         

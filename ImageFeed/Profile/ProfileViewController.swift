@@ -54,7 +54,7 @@ final class ProfileViewController: UIViewController {
             splashVC.modalPresentationStyle = .fullScreen
             self.dismiss(animated: true) {
                 self.clean()
-                _ = KeychainWrapper.standard.removeObject(forKey: TokenStorage.tokenKey)
+                TokenStorage.shared.removeToken()
                 self.present(splashVC, animated: true)
             }
         }
@@ -109,7 +109,7 @@ extension ProfileViewController {
         if let systemImage = UIImage(systemName: "ipad.and.arrow.forward") {
             exitButton = UIButton.systemButton(with: systemImage, target: self, action: #selector(didTapExit))
         } else {
-            print(Errors.imageError.rawValue)
+            assertionFailure(Errors.imageError.rawValue)
         }
         
         exitButton.tintColor = UIColor(named: "YP Red")

@@ -1,5 +1,4 @@
 import UIKit
-import ProgressHUD
 import SwiftKeychainWrapper
 
 final class SplashViewController: UIViewController {
@@ -25,7 +24,8 @@ final class SplashViewController: UIViewController {
         }
         
         guard firstTime == true else { return }
-        if let token = KeychainWrapper.standard.string(forKey: TokenStorage.tokenKey) {
+        if let token = TokenStorage.shared.token {
+            print(token)
             UIBlockingProgressHUD.show()
             fetchProfile(token: token)
         } else {
@@ -81,7 +81,7 @@ extension SplashViewController: AuthViewControllerDelegate {
     
     // ProfileService
     private func fetchProfile(token: String) {
-        guard let token = KeychainWrapper.standard.string(forKey: TokenStorage.tokenKey) else { return }
+        guard let token = TokenStorage.shared.token else { return }
         profileService.fetchProfile(token, completion: { [weak self] result in
             guard let self = self else { return }
             switch result {

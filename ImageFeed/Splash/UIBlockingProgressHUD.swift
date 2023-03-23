@@ -3,6 +3,9 @@ import ProgressHUD
 
 final class UIBlockingProgressHUD {
     private static var window: UIWindow? {
+        ProgressHUD.animationType = .circleStrokeSpin
+        ProgressHUD.colorHUD = .black
+        ProgressHUD.colorAnimation = .lightGray
         return UIApplication.shared.windows.first
     }
     

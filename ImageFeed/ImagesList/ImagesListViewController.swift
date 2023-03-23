@@ -38,11 +38,11 @@ final class ImagesListViewController: UIViewController {
     }
 }
 
-// MARK: - configCell, showSingleImageVC
+// MARK: - configHeight, configCell, showSingleImageVC
 extension ImagesListViewController {
     private func configHeight(with indexPath: IndexPath) -> CGFloat {
         let image = self.photosImages[indexPath.row]
-
+        
         let imageInsets = UIEdgeInsets(top: 4, left: 16, bottom: 4, right: 16)
         let imageViewWidth = self.tableView.bounds.width - imageInsets.left - imageInsets.right
         let imageWidth = image.size.width
@@ -75,27 +75,8 @@ extension ImagesListViewController {
     private func showSingleImageVC(indexPath: IndexPath) {
         guard let viewController = UIStoryboard(name: "Main", bundle: .main).instantiateViewController(withIdentifier: showSingleImageVC) as? SingleImageViewController else { return }
         viewController.modalPresentationStyle = .fullScreen
+        viewController.photo = photos[indexPath.row]
         present(viewController, animated: true)
-        let photo = photos[indexPath.row]
-        let url = URL(string: photo.largeImageURL)!
-        
-        UIBlockingProgressHUD.show()
-        let imageViewForSingleImage = UIImageView()
-        imageViewForSingleImage.kf.setImage(
-            with: url,
-            placeholder: UIImage(named: "stub_photo"),
-            options: .none) { [weak self] result in
-            UIBlockingProgressHUD.dismiss()
-                
-            guard let self = self else { return }
-            switch result {
-            case .success(let image):
-                viewController.image = image.image
-            case .failure(let error):
-                print(error)
-                self.showAdvancedErrorForSVC(viewController)
-            }
-        }
     }
 }
 
@@ -109,8 +90,7 @@ extension ImagesListViewController: ImagesListCellDelegate {
             guard let self = self else { return }
             switch result {
             case .success(_):
-                self.photos.remove(at: indexPath.row)
-                self.photos.insert(self.imagesListService.photos[indexPath.row], at: indexPath.row)
+                self.photos[indexPath.row] = self.imagesListService.photos[indexPath.row]
                 let newPhoto = self.photos[indexPath.row]
                 cell.setIsLike(newPhoto.isLiked)
                 UIBlockingProgressHUD.dismiss()
@@ -211,43 +191,6 @@ extension ImagesListViewController {
         alert.addAction(dismissAction)
         alert.addAction(repeatAction)
         self.present(alert, animated: true)
-    }
-    
-    private func showAdvancedErrorForSVC(_ viewController: SingleImageViewController) {
-        let alert = UIAlertController(
-            title: "Что-то пошло не так(",
-            message: "Попробовать ещё раз?",
-            preferredStyle: .alert
-        )
-        let dismissAction = UIAlertAction(title: "Не надо", style: .default) { _ in
-            alert.dismiss(animated: true)
-        }
-        
-        let repeatAction = UIAlertAction(title: "Повторить", style: .default) { [weak self] _ in
-            guard let self = self else { return }
-            UIBlockingProgressHUD.show()
-            self.imageViewForSingleImage.kf.setImage(
-                with: self.fullImageUrl,
-                placeholder: UIImage(named: "stub_photo"),
-                options: .none) { [weak self] result in
-                UIBlockingProgressHUD.dismiss()
-                    
-                guard let self = self else { return }
-                switch result {
-                case .success(let image):
-                    viewController.image = image.image
-                    alert.dismiss(animated: true)
-                case .failure(let error):
-                    print(error)
-                    alert.dismiss(animated: true)
-                    self.showAdvancedErrorForSVC(viewController)
-                }
-            }
-        }
-        
-        alert.addAction(dismissAction)
-        alert.addAction(repeatAction)
-        viewController.present(alert, animated: true)
     }
 }
 

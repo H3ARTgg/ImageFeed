@@ -26,7 +26,7 @@ final class OAuth2Service: OAuth2ServiceProtocol {
                 self.lastCode = nil
             case .success(let responseBody):
                 let authToken = responseBody.accessToken
-                let isSuccess = KeychainWrapper.standard.set(authToken, forKey: TokenStorage.tokenKey)
+                let isSuccess = KeychainWrapper.standard.set(authToken, forKey: TokenStorage.shared.tokenKey)
                 guard isSuccess else {
                     completion(.failure(Errors.failedToSaveToken))
                     return
