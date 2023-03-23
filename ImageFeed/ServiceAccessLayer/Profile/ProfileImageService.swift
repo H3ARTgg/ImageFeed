@@ -18,7 +18,8 @@ final class ProfileImageService {
         }
 
         var request = URLRequest.makeHTTPRequest(path: "/users/\(username)", httpMethod: "GET")
-        guard let token = TokenStorage.token else { return }
+        guard let token = TokenStorage.shared.token else {
+            return }
         request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
         
         let task = URLSession.shared.objectTask(for: request) { [weak self] (result: Result<UserResult, Error>) in
@@ -35,8 +36,7 @@ final class ProfileImageService {
                     self.task = nil
                     NotificationCenter.default.post(
                             name: ProfileImageService.didChangeNotification,
-                            object: self,
-                            userInfo: ["URL": imageURL])
+                            object: self)
                 } else {
                     completion(.failure(URLError.noImages))
                     self.task = nil

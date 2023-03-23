@@ -1,5 +1,4 @@
 import UIKit
-import ProgressHUD
 import SwiftKeychainWrapper
 
 final class SplashViewController: UIViewController {
@@ -9,6 +8,7 @@ final class SplashViewController: UIViewController {
     private let profileImageService = ProfileImageService.shared
     private var imageView = UIImageView()
     private var firstTime: Bool = true
+    var isFromProfileVC: Bool = false
     
     // MARK: - Lifecycle
     override func viewDidLoad() {
@@ -18,11 +18,14 @@ final class SplashViewController: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        ProgressHUD.animationType = .circleStrokeSpin
-        ProgressHUD.colorHUD = .ypBlack!
+        if isFromProfileVC {
+            showAuthVC()
+            isFromProfileVC = false
+        }
         
         guard firstTime == true else { return }
-        if let token = TokenStorage.token {
+        if let token = TokenStorage.shared.token {
+            print(token)
             UIBlockingProgressHUD.show()
             fetchProfile(token: token)
         } else {
@@ -78,7 +81,7 @@ extension SplashViewController: AuthViewControllerDelegate {
     
     // ProfileService
     private func fetchProfile(token: String) {
-        guard let token = TokenStorage.token else { return }
+        guard let token = TokenStorage.shared.token else { return }
         profileService.fetchProfile(token, completion: { [weak self] result in
             guard let self = self else { return }
             switch result {

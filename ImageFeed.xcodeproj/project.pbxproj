@@ -39,6 +39,11 @@
 		1D903A7729B6080200D368F7 /* SwiftKeychainWrapper in Frameworks */ = {isa = PBXBuildFile; productRef = 1D903A7629B6080200D368F7 /* SwiftKeychainWrapper */; };
 		1D903A7929B62EBE00D368F7 /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D903A7829B62EBE00D368F7 /* TabBarController.swift */; };
 		1D903A7D29B7E47600D368F7 /* TokenStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D903A7C29B7E47600D368F7 /* TokenStorage.swift */; };
+		1D903A8029BB755500D368F7 /* PhotoResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D903A7F29BB755500D368F7 /* PhotoResult.swift */; };
+		1D903A8229BB75BD00D368F7 /* ImagesListService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D903A8129BB75BD00D368F7 /* ImagesListService.swift */; };
+		1D903A8429BB7BA400D368F7 /* Photo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D903A8329BB7BA400D368F7 /* Photo.swift */; };
+		1D903A9329C71A5500D368F7 /* ImagesListCellDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D903A9229C71A5400D368F7 /* ImagesListCellDelegate.swift */; };
+		1D903A9529C71DC300D368F7 /* ErrorAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D903A9429C71DC200D368F7 /* ErrorAlert.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -73,6 +78,11 @@
 		1D903A7029AF75E600D368F7 /* UserResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserResult.swift; sourceTree = "<group>"; };
 		1D903A7829B62EBE00D368F7 /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
 		1D903A7C29B7E47600D368F7 /* TokenStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenStorage.swift; sourceTree = "<group>"; };
+		1D903A7F29BB755500D368F7 /* PhotoResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoResult.swift; sourceTree = "<group>"; };
+		1D903A8129BB75BD00D368F7 /* ImagesListService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagesListService.swift; sourceTree = "<group>"; };
+		1D903A8329BB7BA400D368F7 /* Photo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Photo.swift; sourceTree = "<group>"; };
+		1D903A9229C71A5400D368F7 /* ImagesListCellDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagesListCellDelegate.swift; sourceTree = "<group>"; };
+		1D903A9429C71DC200D368F7 /* ErrorAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorAlert.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -108,9 +118,7 @@
 		1D49FFC6296C5CDA009017F3 /* ImageFeed */ = {
 			isa = PBXGroup;
 			children = (
-				1D903A3D299AF4AF00D368F7 /* Constants.swift */,
-				1D903A7C29B7E47600D368F7 /* TokenStorage.swift */,
-				1D903A7A29B63B6500D368F7 /* AppLifeCycle */,
+				1D903A7A29B63B6500D368F7 /* Application */,
 				1D903A7B29B63B8300D368F7 /* TabBar */,
 				1D903A5B29A2CDA600D368F7 /* Splash */,
 				1D903A5629A2CCDC00D368F7 /* ServiceAccessLayer */,
@@ -119,10 +127,8 @@
 				1D903A5829A2CD0400D368F7 /* Profile */,
 				1D903A3629756F3A00D368F7 /* ImagesList */,
 				1D903A5929A2CD2300D368F7 /* Helpers */,
+				1D903A9829CC6A4900D368F7 /* Resources */,
 				1D49FFCD296C5CDA009017F3 /* Main.storyboard */,
-				1D49FFD0296C5CDB009017F3 /* Assets.xcassets */,
-				1D49FFD2296C5CDB009017F3 /* LaunchScreen.storyboard */,
-				1D49FFD5296C5CDB009017F3 /* Info.plist */,
 			);
 			path = ImageFeed;
 			sourceTree = "<group>";
@@ -132,6 +138,8 @@
 			children = (
 				1D49FFCB296C5CDA009017F3 /* ImagesListViewController.swift */,
 				1D903A3429756F0400D368F7 /* ImagesListCell.swift */,
+				1D903A8329BB7BA400D368F7 /* Photo.swift */,
+				1D903A9229C71A5400D368F7 /* ImagesListCellDelegate.swift */,
 			);
 			path = ImagesList;
 			sourceTree = "<group>";
@@ -150,6 +158,7 @@
 		1D903A5629A2CCDC00D368F7 /* ServiceAccessLayer */ = {
 			isa = PBXGroup;
 			children = (
+				1D903A7E29BB743800D368F7 /* ImagesList */,
 				1D903A6429AE67A000D368F7 /* Profile */,
 				1D903A5729A2CCE200D368F7 /* OAuth */,
 			);
@@ -178,6 +187,9 @@
 		1D903A5929A2CD2300D368F7 /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
+				1D903A5F29AE63DF00D368F7 /* UIBlockingProgressHUD.swift */,
+				1D903A3D299AF4AF00D368F7 /* Constants.swift */,
+				1D903A7C29B7E47600D368F7 /* TokenStorage.swift */,
 				1D903A5429A2B42100D368F7 /* URLSession + Extension.swift */,
 				1D903A3B2996D5C000D368F7 /* UIColor + Extenstion.swift */,
 				1D903A4A29A0FB9E00D368F7 /* URLRequest + Extenstion.swift */,
@@ -196,7 +208,6 @@
 		1D903A5B29A2CDA600D368F7 /* Splash */ = {
 			isa = PBXGroup;
 			children = (
-				1D903A5F29AE63DF00D368F7 /* UIBlockingProgressHUD.swift */,
 				1D903A5029A12A4300D368F7 /* SplashViewController.swift */,
 			);
 			path = Splash;
@@ -213,13 +224,13 @@
 			path = Profile;
 			sourceTree = "<group>";
 		};
-		1D903A7A29B63B6500D368F7 /* AppLifeCycle */ = {
+		1D903A7A29B63B6500D368F7 /* Application */ = {
 			isa = PBXGroup;
 			children = (
 				1D49FFC7296C5CDA009017F3 /* AppDelegate.swift */,
 				1D49FFC9296C5CDA009017F3 /* SceneDelegate.swift */,
 			);
-			path = AppLifeCycle;
+			path = Application;
 			sourceTree = "<group>";
 		};
 		1D903A7B29B63B8300D368F7 /* TabBar */ = {
@@ -228,6 +239,26 @@
 				1D903A7829B62EBE00D368F7 /* TabBarController.swift */,
 			);
 			path = TabBar;
+			sourceTree = "<group>";
+		};
+		1D903A7E29BB743800D368F7 /* ImagesList */ = {
+			isa = PBXGroup;
+			children = (
+				1D903A7F29BB755500D368F7 /* PhotoResult.swift */,
+				1D903A8129BB75BD00D368F7 /* ImagesListService.swift */,
+			);
+			path = ImagesList;
+			sourceTree = "<group>";
+		};
+		1D903A9829CC6A4900D368F7 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				1D903A9429C71DC200D368F7 /* ErrorAlert.swift */,
+				1D49FFD0296C5CDB009017F3 /* Assets.xcassets */,
+				1D49FFD2296C5CDB009017F3 /* LaunchScreen.storyboard */,
+				1D49FFD5296C5CDB009017F3 /* Info.plist */,
+			);
+			path = Resources;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -314,6 +345,7 @@
 				1D903A6629AE67B600D368F7 /* ProfileResult.swift in Sources */,
 				1D903A7D29B7E47600D368F7 /* TokenStorage.swift in Sources */,
 				1D903A43299BBBFF00D368F7 /* WebViewViewController.swift in Sources */,
+				1D903A8029BB755500D368F7 /* PhotoResult.swift in Sources */,
 				1D49FFCC296C5CDA009017F3 /* ImagesListViewController.swift in Sources */,
 				1D903A6A29AE6D1E00D368F7 /* Profile.swift in Sources */,
 				1D903A5529A2B42100D368F7 /* URLSession + Extension.swift in Sources */,
@@ -328,6 +360,7 @@
 				1D903A3C2996D5C000D368F7 /* UIColor + Extenstion.swift in Sources */,
 				1D903A3529756F0400D368F7 /* ImagesListCell.swift in Sources */,
 				1D903A38297ADE6900D368F7 /* ProfileViewController.swift in Sources */,
+				1D903A9529C71DC300D368F7 /* ErrorAlert.swift in Sources */,
 				1D49FFC8296C5CDA009017F3 /* AppDelegate.swift in Sources */,
 				1D903A4B29A0FB9E00D368F7 /* URLRequest + Extenstion.swift in Sources */,
 				1D903A7929B62EBE00D368F7 /* TabBarController.swift in Sources */,
@@ -335,8 +368,11 @@
 				1D903A45299BC72200D368F7 /* WebViewViewControllerDelegate.swift in Sources */,
 				1D49FFCA296C5CDA009017F3 /* SceneDelegate.swift in Sources */,
 				1D903A40299BB23E00D368F7 /* AuthViewController.swift in Sources */,
+				1D903A8229BB75BD00D368F7 /* ImagesListService.swift in Sources */,
+				1D903A9329C71A5500D368F7 /* ImagesListCellDelegate.swift in Sources */,
 				1D903A3E299AF4AF00D368F7 /* Constants.swift in Sources */,
 				1D903A6329AE675300D368F7 /* ProfileService.swift in Sources */,
+				1D903A8429BB7BA400D368F7 /* Photo.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -485,7 +521,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = CCJ53Q5CP4;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = ImageFeed/Info.plist;
+				INFOPLIST_FILE = ImageFeed/Resources/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
@@ -515,7 +551,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = CCJ53Q5CP4;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = ImageFeed/Info.plist;
+				INFOPLIST_FILE = ImageFeed/Resources/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;

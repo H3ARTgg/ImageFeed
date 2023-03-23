@@ -1,5 +1,7 @@
 import UIKit
 import Kingfisher
+import WebKit
+import SwiftKeychainWrapper
 
 private enum Errors: String {
     case imageError = "Не удалось получить картинку"
@@ -44,7 +46,35 @@ final class ProfileViewController: UIViewController {
     }
     
     @objc private func didTapExit() {
+        let alert = UIAlertController(title: "Пока, пока!", message: "Уверены что хотите выйти?", preferredStyle: .alert)
+        let yesAction = UIAlertAction(title: "Да", style: .default) { [weak self] _ in
+            guard let self = self else { return }
+            let splashVC = SplashViewController()
+            splashVC.isFromProfileVC = true
+            splashVC.modalPresentationStyle = .fullScreen
+            self.dismiss(animated: true) {
+                self.clean()
+                TokenStorage.shared.removeToken()
+                self.present(splashVC, animated: true)
+            }
+        }
         
+        let noAction = UIAlertAction(title: "Нет", style: .default) { _ in
+            alert.dismiss(animated: true)
+        }
+        
+        alert.addAction(yesAction)
+        alert.addAction(noAction)
+        present(alert, animated: true)
+    }
+    
+    private func clean() {
+       HTTPCookieStorage.shared.removeCookies(since: Date.distantPast)
+       WKWebsiteDataStore.default().fetchDataRecords(ofTypes: WKWebsiteDataStore.allWebsiteDataTypes()) { records in
+          records.forEach { record in
+             WKWebsiteDataStore.default().removeData(ofTypes: record.dataTypes, for: [record], completionHandler: {})
+          }
+       }
     }
 }
 
@@ -79,7 +109,7 @@ extension ProfileViewController {
         if let systemImage = UIImage(systemName: "ipad.and.arrow.forward") {
             exitButton = UIButton.systemButton(with: systemImage, target: self, action: #selector(didTapExit))
         } else {
-            print(Errors.imageError.rawValue)
+            assertionFailure(Errors.imageError.rawValue)
         }
         
         exitButton.tintColor = UIColor(named: "YP Red")
