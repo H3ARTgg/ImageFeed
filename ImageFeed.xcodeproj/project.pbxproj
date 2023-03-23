@@ -118,10 +118,7 @@
 		1D49FFC6296C5CDA009017F3 /* ImageFeed */ = {
 			isa = PBXGroup;
 			children = (
-				1D903A3D299AF4AF00D368F7 /* Constants.swift */,
-				1D903A7C29B7E47600D368F7 /* TokenStorage.swift */,
-				1D903A9429C71DC200D368F7 /* ErrorAlert.swift */,
-				1D903A7A29B63B6500D368F7 /* AppLifeCycle */,
+				1D903A7A29B63B6500D368F7 /* Application */,
 				1D903A7B29B63B8300D368F7 /* TabBar */,
 				1D903A5B29A2CDA600D368F7 /* Splash */,
 				1D903A5629A2CCDC00D368F7 /* ServiceAccessLayer */,
@@ -130,10 +127,8 @@
 				1D903A5829A2CD0400D368F7 /* Profile */,
 				1D903A3629756F3A00D368F7 /* ImagesList */,
 				1D903A5929A2CD2300D368F7 /* Helpers */,
+				1D903A9829CC6A4900D368F7 /* Resources */,
 				1D49FFCD296C5CDA009017F3 /* Main.storyboard */,
-				1D49FFD0296C5CDB009017F3 /* Assets.xcassets */,
-				1D49FFD2296C5CDB009017F3 /* LaunchScreen.storyboard */,
-				1D49FFD5296C5CDB009017F3 /* Info.plist */,
 			);
 			path = ImageFeed;
 			sourceTree = "<group>";
@@ -192,6 +187,9 @@
 		1D903A5929A2CD2300D368F7 /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
+				1D903A5F29AE63DF00D368F7 /* UIBlockingProgressHUD.swift */,
+				1D903A3D299AF4AF00D368F7 /* Constants.swift */,
+				1D903A7C29B7E47600D368F7 /* TokenStorage.swift */,
 				1D903A5429A2B42100D368F7 /* URLSession + Extension.swift */,
 				1D903A3B2996D5C000D368F7 /* UIColor + Extenstion.swift */,
 				1D903A4A29A0FB9E00D368F7 /* URLRequest + Extenstion.swift */,
@@ -210,7 +208,6 @@
 		1D903A5B29A2CDA600D368F7 /* Splash */ = {
 			isa = PBXGroup;
 			children = (
-				1D903A5F29AE63DF00D368F7 /* UIBlockingProgressHUD.swift */,
 				1D903A5029A12A4300D368F7 /* SplashViewController.swift */,
 			);
 			path = Splash;
@@ -227,13 +224,13 @@
 			path = Profile;
 			sourceTree = "<group>";
 		};
-		1D903A7A29B63B6500D368F7 /* AppLifeCycle */ = {
+		1D903A7A29B63B6500D368F7 /* Application */ = {
 			isa = PBXGroup;
 			children = (
 				1D49FFC7296C5CDA009017F3 /* AppDelegate.swift */,
 				1D49FFC9296C5CDA009017F3 /* SceneDelegate.swift */,
 			);
-			path = AppLifeCycle;
+			path = Application;
 			sourceTree = "<group>";
 		};
 		1D903A7B29B63B8300D368F7 /* TabBar */ = {
@@ -251,6 +248,17 @@
 				1D903A8129BB75BD00D368F7 /* ImagesListService.swift */,
 			);
 			path = ImagesList;
+			sourceTree = "<group>";
+		};
+		1D903A9829CC6A4900D368F7 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				1D903A9429C71DC200D368F7 /* ErrorAlert.swift */,
+				1D49FFD0296C5CDB009017F3 /* Assets.xcassets */,
+				1D49FFD2296C5CDB009017F3 /* LaunchScreen.storyboard */,
+				1D49FFD5296C5CDB009017F3 /* Info.plist */,
+			);
+			path = Resources;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -513,7 +521,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = CCJ53Q5CP4;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = ImageFeed/Info.plist;
+				INFOPLIST_FILE = ImageFeed/Resources/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
@@ -543,7 +551,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = CCJ53Q5CP4;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = ImageFeed/Info.plist;
+				INFOPLIST_FILE = ImageFeed/Resources/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
