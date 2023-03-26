@@ -3,7 +3,12 @@ private enum Errors: String, Error {
     case failedToParseData = "Failed to parse data"
 }
 
-final class ProfileService {
+public protocol ProfileServiceProtocol: AnyObject {
+    var profile: Profile? { get }
+    func fetchProfile(_ token: String, completion: @escaping (Result<ProfileResult, Error>) -> Void)
+}
+
+final class ProfileService: ProfileServiceProtocol {
     // MARK: Singleton and Properties
     static let shared = ProfileService()
     private var task: URLSessionTask?
@@ -11,7 +16,7 @@ final class ProfileService {
     private(set) var profile: Profile?
     
     // MARK: - fetchProfile
-    func fetchProfile(_ token: String, completion: @escaping (Result<Profile, Error>) -> Void) {
+    func fetchProfile(_ token: String, completion: @escaping (Result<ProfileResult, Error>) -> Void) {
         assert(Thread.isMainThread)
         if task != nil {
             task?.cancel()
@@ -25,7 +30,6 @@ final class ProfileService {
             switch result {
             case .failure(let error):
                 completion(.failure(error))
-                self.task = nil
             case .success(let profileResult):
                 let profile = Profile(
                     username: profileResult.username,
@@ -33,9 +37,9 @@ final class ProfileService {
                     bio: profileResult.bio
                 )
                 self.profile = profile
-                completion(.success(profile))
-                self.task = nil
+                completion(.success(profileResult))
             }
+            self.task = nil
         }
         self.task = task
         task.resume()

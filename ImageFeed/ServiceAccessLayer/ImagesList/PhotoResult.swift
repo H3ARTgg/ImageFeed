@@ -28,7 +28,3 @@ struct PhotoResult: Codable {
         case urls
     }
 }
-
-struct PhotoResultForLike: Codable {
-    let photo: PhotoResult
-}
