@@ -1,23 +1,28 @@
 import UIKit
 import Kingfisher
 import WebKit
-import SwiftKeychainWrapper
 
 private enum Errors: String {
     case imageError = "Не удалось получить картинку"
     case profileServiceError = "Не удалось получить профиль"
 }
 
-final class ProfileViewController: UIViewController {
-    // MARK: - Properties
-    private let profileService = ProfileService.shared
-    private var profileImageServiceObserver: NSObjectProtocol?
+public protocol ProfileViewControllerProtocol: AnyObject {
+    var presenter: ProfilePresenterProtocol? { get set }
+    func updateProfileDetails(profile: Profile)
+    func updateAvatar()
+}
+
+final class ProfileViewController: UIViewController, ProfileViewControllerProtocol, AlertPresenterDelegate {
     
+    // MARK: - Properties
     private let imageView = UIImageView()
     private let nameLabel = UILabel()
     private let loginLabel = UILabel()
     private let descriptionLabel = UILabel()
     private var exitButton = UIButton()
+    var presenter: ProfilePresenterProtocol?
+    var alertPresenter: AlertPresenterProtocol?
     
     // MARK: - Lifecycle
     override func viewDidLoad() {
@@ -29,77 +34,46 @@ final class ProfileViewController: UIViewController {
         configureLoginLabel()
         configureDescriptionLabel()
         
-        if let profile = profileService.profile {
-            updateProfileDetails(profile: profile)
-        } else {
-            print("failed to update profile")
-        }
-        
-        profileImageServiceObserver = NotificationCenter.default.addObserver(
-            forName: ProfileImageService.didChangeNotification,
-            object: nil,
-            queue: .main) { [weak self] _ in
+        alertPresenter = AlertPresenter(delegate: self)
+        presenter?.viewDidLoad()
+    }
+    
+    @objc func didTapExit() {
+        let model = AlertModel(
+            title: "Пока, пока!",
+            message: "Уверены что хотите выйти?",
+            firstButtonText: "Да",
+            secondButtonText: "Нет") { [weak self] _ in
                 guard let self = self else { return }
-                self.updateAvatar()
-            }
-        updateAvatar()
-    }
-    
-    @objc private func didTapExit() {
-        let alert = UIAlertController(title: "Пока, пока!", message: "Уверены что хотите выйти?", preferredStyle: .alert)
-        let yesAction = UIAlertAction(title: "Да", style: .default) { [weak self] _ in
-            guard let self = self else { return }
-            let splashVC = SplashViewController()
-            splashVC.isFromProfileVC = true
-            splashVC.modalPresentationStyle = .fullScreen
-            self.dismiss(animated: true) {
-                self.clean()
-                TokenStorage.shared.removeToken()
-                self.present(splashVC, animated: true)
-            }
-        }
-        
-        let noAction = UIAlertAction(title: "Нет", style: .default) { _ in
-            alert.dismiss(animated: true)
-        }
-        
-        alert.addAction(yesAction)
-        alert.addAction(noAction)
-        present(alert, animated: true)
-    }
-    
-    private func clean() {
-       HTTPCookieStorage.shared.removeCookies(since: Date.distantPast)
-       WKWebsiteDataStore.default().fetchDataRecords(ofTypes: WKWebsiteDataStore.allWebsiteDataTypes()) { records in
-          records.forEach { record in
-             WKWebsiteDataStore.default().removeData(ofTypes: record.dataTypes, for: [record], completionHandler: {})
-          }
-       }
+                self.presenter?.showSplashViewController(presentBy: self)
+            } secondCompletion: { _ in }
+
+        alertPresenter?.showAdvanced(model: model)
     }
 }
-
-// MARK: - updateAvatar
+// MARK: - AlertPresenterDelegate
 extension ProfileViewController {
-    private func updateAvatar() {
-            guard
-                let profileImageURL = ProfileImageService.shared.avatarURL,
-                let url = URL(string: profileImageURL)
-            else { return }
+    func didRecieveAlertController(alert: UIAlertController?) {
+        guard let alert = alert else { return }
+        present(alert, animated: true)
+    }
+}
+// MARK: - updateProfilesDetails, updateAvatar
+extension ProfileViewController {
+    func updateProfileDetails(profile: Profile) {
+        loginLabel.text = profile.loginName
+        nameLabel.text = profile.name
+        descriptionLabel.text = profile.bio
+    }
+    
+    func updateAvatar() {
+        let url = presenter?.avatarURL()
         let processor = RoundCornerImageProcessor(cornerRadius: 20)
         imageView.kf.indicatorType = .activity
         imageView.kf.setImage(
             with: url,
             placeholder: UIImage(named: "placeholder_profile"),
             options: [.processor(processor)])
-    }
-}
-
-// MARK: - updateProfilesDetails
-extension ProfileViewController {
-    private func updateProfileDetails(profile: Profile) {
-        loginLabel.text = profile.loginName
-        nameLabel.text = profile.name
-        descriptionLabel.text = profile.bio
     }
 }
 
@@ -113,6 +87,7 @@ extension ProfileViewController {
         }
         
         exitButton.tintColor = UIColor(named: "YP Red")
+        exitButton.accessibilityIdentifier = "exitButton"
         
         exitButton.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(exitButton)

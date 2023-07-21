@@ -5,11 +5,13 @@ final class SingleImageViewController: UIViewController {
     @IBOutlet private weak var scrollView: UIScrollView!
     @IBOutlet private weak var imageView: UIImageView!
     private let logoImage = UIImage(named: "image_logo")!
+    private var alertPresenter: AlertPresenterProtocol?
     var photo: Photo?
     
     // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
+        alertPresenter = AlertPresenter(delegate: self)
         scrollView.minimumZoomScale = 0.1
         scrollView.maximumZoomScale = 1.25
         imageView.image = logoImage
@@ -29,6 +31,18 @@ final class SingleImageViewController: UIViewController {
     }
     
 }
+
+// MARK: - AlertPresenterDelegate
+extension SingleImageViewController: AlertPresenterDelegate {
+    func didRecieveAlertController(alert: UIAlertController?) {
+        guard let alert = alert else {
+            assertionFailure("No alert")
+            return
+        }
+        present(alert, animated: true)
+    }
+}
+
 // MARK: - showLargeImage, rescaleAndCenterImageInScrollView, Error
 extension SingleImageViewController {
     private func showLargeImage() {
@@ -58,42 +72,28 @@ extension SingleImageViewController {
     }
     
     private func showAdvancedError() {
-        let alert = UIAlertController(
-            title: "Что-то пошло не так(",
-            message: "Попробовать ещё раз?",
-            preferredStyle: .alert
-        )
-        
-        let dismissAction = UIAlertAction(title: "Не надо", style: .default) { _ in
-            alert.dismiss(animated: true)
-        }
-        
-        let repeatAction = UIAlertAction(title: "Повторить", style: .default) { [weak self] _ in
+        let model = AlertModel(title: "Что-то пошло не так(", message: "Попробовать ещё раз?", firstButtonText: "Не надо", secondButtonText: "Повторить", firstCompletion: nil) { [weak self] _ in
             guard let self = self else { return }
             guard let photo = self.photo else { return }
             UIBlockingProgressHUD.show()
             self.imageView.kf.setImage(
                 with: URL(string: photo.largeImageURL)!,
                 placeholder: self.logoImage,
-                options: .none) { [weak self] result in
+                options: .none) { result in
                     UIBlockingProgressHUD.dismiss()
                     
-                    guard let self = self else { return }
                     switch result {
                     case .success(let image):
                         self.imageView.image = image.image
-                        alert.dismiss(animated: true)
                     case .failure(let error):
                         print(error)
-                        alert.dismiss(animated: true)
                         self.showAdvancedError()
                     }
                 }
         }
         
-        alert.addAction(dismissAction)
-        alert.addAction(repeatAction)
-        present(alert, animated: true)
+        alertPresenter?.showAdvanced(model: model)
+        
     }
     
     private func rescaleAndCenterImageInScrollView(image: UIImage) {

@@ -1,27 +1,24 @@
 import UIKit
-import SwiftKeychainWrapper
 
 final class SplashViewController: UIViewController {
     // MARK: - Properties
     private let oauth2Service = OAuth2Service()
-    private let profileService = ProfileService.shared
     private let profileImageService = ProfileImageService.shared
+    private var profileService: ProfileServiceProtocol?
+    private var alertPresenter: AlertPresenterProtocol?
     private var imageView = UIImageView()
-    private var firstTime: Bool = true
-    var isFromProfileVC: Bool = false
+    var firstTime: Bool = true
     
     // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         configureViews()
+        profileService = ProfileService.shared
+        alertPresenter = AlertPresenter(delegate: self)
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        if isFromProfileVC {
-            showAuthVC()
-            isFromProfileVC = false
-        }
         
         guard firstTime == true else { return }
         if let token = TokenStorage.shared.token {
@@ -53,8 +50,17 @@ extension SplashViewController {
         window.rootViewController = tabBarController
     }
 }
+extension SplashViewController: AlertPresenterDelegate {
+    func didRecieveAlertController(alert: UIAlertController?) {
+        guard let alert = alert else {
+            assertionFailure("No alert")
+            return
+        }
+        present(alert, animated: true)
+    }
+}
 
-// MARK: - AuthViewControllerDelegat, ProfileService, ProfileImageService, Alert
+// MARK: - AuthViewControllerDelegate, ProfileService, ProfileImageService, Alert
 extension SplashViewController: AuthViewControllerDelegate {
     func authViewController(_ vc: AuthViewController, didAuthenticateWithCode code: String) {
         UIBlockingProgressHUD.show()
@@ -82,7 +88,7 @@ extension SplashViewController: AuthViewControllerDelegate {
     // ProfileService
     private func fetchProfile(token: String) {
         guard let token = TokenStorage.shared.token else { return }
-        profileService.fetchProfile(token, completion: { [weak self] result in
+        profileService?.fetchProfile(token, completion: { [weak self] result in
             guard let self = self else { return }
             switch result {
             case .failure:
@@ -90,8 +96,8 @@ extension SplashViewController: AuthViewControllerDelegate {
                 self.showErrorAlert()
                 break
             case .success:
-                if let profile = self.profileService.profile {
-                    self.fetchProfileImage(username: profile.username ?? "")
+                if let profile = self.profileService?.profile {
+                    self.fetchProfileImage(username: profile.username)
                 } else {
                     print("No profile")
                 }
@@ -112,18 +118,9 @@ extension SplashViewController: AuthViewControllerDelegate {
     
     // Alert
     private func showErrorAlert() {
-        let alert = UIAlertController(
-                    title: "Что-то пошло не так(",
-                    message: "Не удалось войти в систему",
-                    preferredStyle: .alert
-                )
-                
-        let okAction = UIAlertAction(title: "Ок", style: .default) { _ in
-            alert.dismiss(animated: true)
-        }
-                
-        alert.addAction(okAction)
-        present(alert, animated: true)
+        let model = AlertModel(title: "Что-то пошло не так(", message: "Не удалось войти в систему", firstButtonText: "Ок", secondButtonText: nil, firstCompletion: nil, secondCompletion: nil)
+        
+        alertPresenter?.showBasic(model: model)
     }
 }
 

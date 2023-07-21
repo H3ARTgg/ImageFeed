@@ -1,10 +1,16 @@
 import Foundation
 import UIKit
-import SwiftKeychainWrapper
 
-final class ImagesListService {
+public protocol ImagesListServiceProtocol {
+    var photos: [Photo] { get }
+    var didChangeNotification: Notification.Name { get }
+    func fetchPhotosNextPage(completion: @escaping (Error) -> Void)
+    func changeLike(photoId: String, isLike: Bool, _ completion: @escaping (Result<Void, Error>) -> Void)
+}
+
+final class ImagesListService: ImagesListServiceProtocol {
     static let shared = ImagesListService()
-    static let didChangeNotification = Notification.Name(rawValue: "ImagesListServiceDidChange")
+    let didChangeNotification = Notification.Name(rawValue: "ImagesListServiceDidChange")
     private let photosPerPage: Int = 10
     private (set) var photos: [Photo] = []
     private var lastLoadedPage: Int?
@@ -78,7 +84,7 @@ final class ImagesListService {
                 
                 self.task = nil
                 NotificationCenter.default.post(
-                    name: ImagesListService.didChangeNotification,
+                    name: self.didChangeNotification,
                     object: self)
             case .failure(let error):
                 print(error)

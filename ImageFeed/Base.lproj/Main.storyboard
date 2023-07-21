@@ -31,6 +31,10 @@
                                             <subviews>
                                                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="0" translatesAutoresizingMaskIntoConstraints="NO" id="2ux-o1-GcN" userLabel="Cell Image">
                                                     <rect key="frame" x="16" y="4" width="382" height="237"/>
+                                                    <accessibility key="accessibilityConfiguration">
+                                                        <accessibilityTraits key="traits" button="YES" image="YES"/>
+                                                        <bool key="isElement" value="YES"/>
+                                                    </accessibility>
                                                     <userDefinedRuntimeAttributes>
                                                         <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
                                                             <integer key="value" value="16"/>
@@ -40,6 +44,9 @@
                                                 </imageView>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JdU-Ky-Nc8" userLabel="Like Button">
                                                     <rect key="frame" x="367" y="12" width="21" height="18"/>
+                                                    <accessibility key="accessibilityConfiguration" identifier="like_button_off">
+                                                        <bool key="isElement" value="YES"/>
+                                                    </accessibility>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="18" id="bBG-hJ-RqC"/>
                                                         <constraint firstAttribute="width" relation="lessThanOrEqual" constant="21" id="enm-Nn-sQ7"/>
@@ -136,6 +143,7 @@
                             </scrollView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kAH-np-Agf" userLabel="Back Button">
                                 <rect key="frame" x="17" y="67" width="9" height="22"/>
+                                <accessibility key="accessibilityConfiguration" identifier="nav_back_button"/>
                                 <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                                 <state key="normal" image="backward"/>
                                 <connections>
@@ -211,6 +219,7 @@
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="UFD-NR-Ilk" userLabel="Enter Button">
                                 <rect key="frame" x="16" y="709" width="382" height="48"/>
                                 <color key="backgroundColor" name="YP White"/>
+                                <accessibility key="accessibilityConfiguration" identifier="Authenticate"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="48" id="h3y-AZ-iA5"/>
                                 </constraints>
@@ -251,7 +260,7 @@
         <!--WebView-->
         <scene sceneID="y7h-yq-FmZ">
             <objects>
-                <viewController title="WebView" id="pZC-Nm-7sU" customClass="WebViewViewController" customModule="ImageFeed" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="WebViewViewController" title="WebView" id="pZC-Nm-7sU" customClass="WebViewViewController" customModule="ImageFeed" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="WwT-n2-jDr">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
